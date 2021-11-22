@@ -1,0 +1,2088 @@
+
+<h5>확장기능</h5>
+<ul class="list_bull">
+  <li><b>GitLens</b> </li>
+  <li><b>Korean Language Pack for Visual Studio CODE</b> : 한글패치</li>
+  <li><b>vscode-styled-component</b>: styled-component 테마변경</li>
+</ul>
+
+<!-------------------------------------------------------------------------------------------------------------------------------
+/* Front/BackEnd / React / 문법 : FR_react_syntax.html*/
+/* 탭메뉴 추가 */ 
+-------------------------------------------------------------------------------------------------------------------------------->
+<!-- 탭추가 -->
+<li><a href="#comp_class">Class 컴포넌트</a></li>
+<li><a href="#comp_func">Function 컴포넌트</a></li>
+<li><a href="#loop">반복문</a></li>
+<li><a href="#condition">조건문</a></li>
+<li><a href="#event">이벤트</a></li>
+
+<!-- 'JSX 문법' 추가 시작 -->
+<!-- 'JavaScript 안에서의 주석처리' 내용 삭제 하고 다음 내용 추가 -->
+<div class="section">
+  <h4 class="h4_bul">jsx 문법 내에서 자바스크립트 사용</h4>
+  <ul class="list_bull">
+    <li>jsx 문법 내에서 {} 중괄호를 쓰면 내부에 자바스크립트를 사용할 수 있다.</li>
+    <li>render의 return(), 즉 jsx 안에서 for문과 if문을 사용하지 않는다. 사용은 가능하나 코드가 지저분해짐. map과 삼항연산자, 보호연산자를 주로 쓴다..</li>
+    <li>즉시실행 함수를 만든 뒤 내부에 if문이나 for문을 쓸수 있다. 다만 jsx 안에 if문이나 for문의 코드의 가독성 상 좋지 않다. <br />메서드로 빼거나 map, 삼항 연산자 등을
+      사용한다.</li>
+  </ul>
+
+  <pre class="brush: js; html-script: false; toolbar: false;">
+    render() {
+      return (
+         <Styles>
+           {/* 연산자사용. */}
+
+
+            {
+              this.state.result.length === 0 
+              ?  null 
+              : <div>평균시간: {this.state.result.reduce((a, c) => a + c) / this.state.result.length}ms</div>
+            }
+
+            {/* 메서드를 호출해 컨텐츠 삽입 */}
+            {this.renderAverage()}
+
+            {/* 자바스크립트 내에서 if 문 사용 */}
+            {/* { }를 열고 함수를 넣은 뒤 내부에 if문을 넣는다. 그리고 ()()로 감싸 즉시 실행 함수로 만든다. */}
+            {(() => {
+              if(this.state.result.length === 0) {
+                return null;
+              } else {
+                <div>평균시간: {result.reduce((a, c) => a + c) / result.length}ms</div>
+              }
+            })()}
+         </Styles>
+
+      );
+  }</pre>
+</div><!-- section  끝 -->
+<!-- 'JSX 문법' 추가 끝 -->
+
+<!-- Class 컴포넌트 시작 -->
+<div class="tab_box" id="comp_class">
+  <div class="section">
+    <h4 class="h4_bul">메서드</h4>
+    <ul class="list_bull">
+      <li>render에 너무 많은 코드를 두지 말고, 별도의 함수로 뺄 수 있으면 뺀다.</li>
+    </ul>
+    <pre class="brush: js; html-script: false; toolbar: false;">
+      class App extends Component {
+        
+        // 컴포넌트 내 메서드 추가
+        getContent() {
+          var funVal;
+          /// 함수 내용
+          return funVal; // 값을 리턴
+
+        }
+        render() {
+          return (
+            <div className="App">
+              {this.getContent()}  // 함수를 호출하고 값을 받아 사용할 때 ()를 사용
+            </div>
+          );
+        }
+      }
+    </pre>
+    <ul class="list_bull">
+      <li>클래스 컴포넌트 안에 메서드를 생성할 때 반드시 <b>화살표 함수</b>를 써야 한다.<br />
+        function() { } 방식으로 작성하면 내부의 this 가 달라진다.</li>
+    </ul>
+    <pre class="brush: js; html-script: false; toolbar: false;">
+      class GuGuDan extends React.Component {
+        onChange = (e) => {
+            this.setState({ value: e.target.value })
+        }
+        render() {
+
+            return (
+               // ....
+            )
+        }
+      }</pre>
+    <p class="info">LifeCycle 관련 함수는 화살표 함수(X). shouldComponentUpdate() {...} 작성 </p>
+  </div><!-- section  끝 -->
+
+  <div class="section">
+    <h4 class="h4_bul">constructor와 state</h4>
+    <ul class="list_bull">
+      <li>setState를 할때마다 render 함수를 계속 실행한다. 성능 이슈가 생길 수 있다.</li>
+    </ul>
+    <h5>state 초기값 작성</h5>
+    <p>constructor는 있어도 되고 없어도 되나. constructor 자체가 함수이므로 constructor를 사용하면 state의 값을 더 디테일하게 가공할 수 있다.</p>
+    <pre class="brush: js; html-script: false; toolbar: false;">
+      class GuGuDanClass extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {
+
+              liked: false,
+          }
+        }
+        render() {
+          return (
+            // ....
+          )
+        }
+      }
+
+      class GuGuDanClass extends React.Component {
+        // constructor 없어도 된다. 다음과 같이 this 없는 상태로 작성할 수 있다.
+        state = {
+            liked: false,
+        }
+        render() {
+          return (
+            // ....
+          )
+        }
+      }
+
+      
+  </pre>
+  </div><!-- section  끝 -->
+
+  <div class="section">
+    <h4 class="h4_bul">setState</h4>
+    <p>class 컴포넌트는 state가 바뀌면 render 부분이 재 실행 되고, 함수 컴포넌트는 함수 전체가 다시 실행 된다. </p>
+    <p class="info">클래스 컴포넌트의 <b>render() 안에 setState를 쓰지 않는다.</b> setState가 일어나면 render를 다시 호출하므로 무한 반복이 일어난다.</p>
+    <pre class="brush: js; html-script: false; toolbar: false;">
+    render() {
+      this.setState({
+        // ...
+      })
+      return {
+        <div>내용</div>
+      }
+    }</pre>
+
+    <h5>setState가 여러번 선언 되었을 때.</h5>
+    <p>setState가 연달아 선언 되었을때. render를 setState마다 하지 않고 모든 setState를 모아 처리한 뒤 1번 render 한다.</p>
+    <pre class="brush: js; html-script: false; toolbar: false;">
+    this.setState((prevState) => {
+      return {
+          result : '졌습니다...',
+          score : prevState.score -1,
+      }
+    });
+    this.setState((prevState) => {
+      return {
+          result : '졌습니다...',
+          score : prevState.score -1,
+      }
+    });
+    this.setState((prevState) => {
+        return {
+            result : '졌습니다...',
+
+            score : prevState.score -1,
+        }
+    });</pre>
+
+    <h5>prevState와 setState</h5>
+    <p>setState 하기 전 이전 state값을 사용하려면 this.setState 함수안에 화살표함수를 넣어 return 하면 이전 state 값을 얻을 수 있다.</p>
+    <pre class="brush: js; html-script: false; toolbar: false; highlight: [13,14, 18]">
+      class GuGuDanClass extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {
+              first: Math.ceil(Math.random() * 9),
+              second: Math.ceil(Math.random() * 9),
+              value: '',
+              result: '',
+          };
+        }
+        onSubmit = (e) => {
+
+          e.preventDefault();
+          this.setState((prevState) => {
+              return {
+                  first: Math.ceil(Math.random() * 9),
+                  second: Math.ceil(Math.random() * 9),
+                  value: '',
+                  result: `정답: ${prevState.first} 곱하기 ${prevState.second} = ${prevState.value}`,
+              }
+          })
+        }
+        render() {
+            return (
+                // ....
+            )
+        }
+      }
+    </pre>
+  </div><!-- section  끝 -->
+
+<div class="section">
+
+    <h4 class="h4_bul">Form요소의 onChange</h4>
+    <ul class="list_bull">
+      <li>input, textarea는 state를 받으면 수정할 수 없으므로 onChange 이벤트를 추가 해야 한다.</li>
+      <li>변경되지 않고 readonly만 하는 input 요소는 onchange 가 필요없다.</li>
+      <li>textarea 도 value로 값을 넣는다.</li>
+    </ul>
+
+    <pre class="brush: js; html-script: false; toolbar: false; highlight:[]">
+    class UpdateContent extends Component {
+      constructor(props) {
+          // constructor 안에서 this를 일괄적으로 bind해 준 경우
+          this.inputFormHandler = this.inputFormHandler.bind(this); //bind 추가
+      }
+      
+      // onChange 호출시 this를 바인딩.
+      inputFormHandler1(e){
+        this.setState({value : e.target.value})
+      }
+      
+      // constructor 안에서 this를 일괄적으로 bind해 준 경우
+      inputFormHandler2(e) {
+        this.setState({value : e.target.value})  
+      }
+      
+      //화살표 함수로 작성하면 this를 사용하지 않아도 된다.
+      onChangeInput = (e) => {
+        this.setState({value : e.target.value}) // 또는 this.setState({[e.target.name]:e.target.value})
+      }
+      render() {
+        return (
+          &lt;form action="/update_process" method="post" onSubmit={function (e) {
+            e.preventDefault();
+            this.props.onSubmit(e.target.title.value, e.target.desc.value);
+          }.bind(this)}>
+
+            // inline style
+            &lt;input
+
+
+              type="text" name="title" placeholder="title" value={this.state.title}
+              onChange={function(e){this.setState({title:e.target.value})}.bind(this)}
+            />
+
+            // onChange 호출시 this를 바인딩.
+            &lt;input type="text" name="title" placeholder="title" value={this.state.title} onChange={this.inputFormHandler1.bind(this)} />
+
+            // constructor 안에서 this를 일괄적으로 bind해 준 경우
+            &lt;input type="text" name="title" placeholder="title" value={this.state.title} onChange={this.inputFormHandler2} />
+            &lt;textarea name="desc" placeholde="description" value={this.state.desc} onChange={this.inputFormHandler2} />
+            
+            // 화살표 함수를 이용해 this를 제거한 경우
+            &lt;input type="number" value={this.state.value} onChange={this.onChangeInput} />
+            &lt;input type="submit" value="전송" />
+          &lt;/form>
+        );
+
+
+    }
+    </pre>
+    <h5>defaultValue</h5>
+    <p>input이 readonly가 되지 않기 위해서는 위처럼 value와 onchange를 같이 적어주는 방법과 value없이 <b>defaultValue</b>를 지정하는 방법이 있다.</p>
+    <pre class="brush: js; html-script: false; toolbar: false;">
+    &lt;input type="number" defaultValue={this.state.value} />
+    </pre>
+
+  </div><!-- section  끝 -->
+
+
+
+  <div class="section">
+    <h4 class="h4_bul">props의 전달</h4>
+    <h5>부모요소에서 자식 요소로 props를 전달한다.</h5>
+    <pre class="brush: js; html-script: false; toolbar: false; highlight:[5, 18, 19]">
+      class App extends Component {
+        render() {
+          return (
+            <div className="App">
+
+                &lt;ClassComp initNumber={2} />
+            </div>
+          );
+        }
+      }
+      
+      class ClassComp extends Component {
+        state = {
+          number : this.props.initNumber
+        }
+        render () {
+          return (
+            <div class="container">
+              <p>Number : {this.props.initNumber}</p>  {/*props에 this를 통해 바로 접근*/}
+              <p>Number : {this.state.number}</p>      {/*state로 전달받아 접근*/} 
+          </div>
+          )
+        }
+      }</pre>
+
+    <h5>지식요소에서 부모로부터 받은 props를 변경</h5>
+    <p>자식컴포넌트에서 부모컴포넌트로 부터 넘어온 props를 수정할 수 없다. props는 부모가 바꿔줘야 한다.<br />
+      단 실무에서 부득이 부모컴포넌트로부터 넘어온 props를 바꿔야 하는 경우가 있는데 그럴 경우 props를 state에 넣어서 변경한다. <br />
+
+      (부모의 props에 영향을 "안" 미침)</p>
+    <pre class="brush: js; html-script: false; toolbar: false;">
+      //클래스형 컴포넌트(부모)
+      class PropsTransmissionClass extends React.Component {
+        state = {
+            counter : true,
+            text : "what??",
+        }     
+        render() {
+          return (
+            <div>
+              <div>counter : {this.state.counter.toString()}, text: {this.state.text}</div>
+              &lt;PropsClass text={this.state.text} counter={this.state.counter} />
+            </div>
+            )
+        }
+      }
+      
+      //클래스형 컴포넌트(자식)
+
+      class PropsClass extends React.PureComponent {
+
+        constructor(props) {
+          super(props);
+          console.log("this.props: ", this.props);
+          this.state = {
+            counter : this.props.counter,
+            text : this.props.text,
+          }
+        }
+          
+        onClick = () => {
+          this.setState({
+            counter : false,
+            text : "변경됐다."
+         })
+        }
+      
+        render() {       
+          return (
+            <div>
+              <p className="fwb">자식요소</p>
+              <div>counter: {this.state.counter.toString()}, text: {this.state.text}</div>
+              <button onClick={this.onClick}>props 변경</button>
+            </div>
+          )
+        }
+      } 
+    </pre>
+
+    <h5>state, props의 구조분해(비구조화할당)</h5>
+    <p>class 컴포넌트에서 반복적인 this.state 구문을 쓰지 않으려면 구조분해(비구조화할당) 방식을 쓴다.</p>
+    <pre class="brush: js; html-script: false; toolbar: false;">
+      const { value1, value2, value3 } = this.state;    
+      <div>{this.state.value1}</div> // 를 
+      <div>{value1}</div> //로 사용할 수 있다.
+
+      const { value } = this.props;        
+      <div>{this.props.value}</div> // 를 
+      <div>{value}</div> // 로 사용할 수 있다.
+      </pre>
+  </div><!-- section  끝 -->
+
+  <div class="section">
+    <h4 class="h4_bul">성능최적화</h4>
+    <h5>PureComponent</h5>
+    <p>클래스형 컴포넌트에서 자식 컴포넌트를 PureComponent로 지정한다.</p>
+
+
+    <pre class="brush: js; html-script: false; toolbar: false;">
+      class PropsClass extends React.PureComponent {
+          render() {
+              return (
+                  <div>...</div>
+              )
+          }
+      }
+    </pre>
+  </div><!-- section  끝 -->
+</div>
+<!-- Class 컴포넌트 끝 -->
+
+<!-- 함수형 컴포넌트 시작 -->
+<div class="tab_box" id="comp_func">
+  <div class="section">
+    <h4 class="h4_bul">이전 state의 사용</h4>
+    <pre class="brush: js; html-script: false; toolbar: false;">
+      const [tries, setTries] = useState([]);
+
+
+      setTries((prevState) => {
+          return [...prevState, {try : value, resualt: `${strike} 스트라이크, ${ball} 볼입니다.`}] 
+          // 기존 배열에 배열을 추가하는 형태
+      });
+    </pre>
+  </div><!-- section  끝 -->
+
+
+  <div class="section">
+    <h4 class="h4_bul">Form요소의 onChange</h4>
+    <ul class="list_bull">
+      <li>input, textarea는 state를 받으면 수정할 수 없으므로 onChange 이벤트를 추가 해야 한다.</li>
+      <li>변경되지 않고 readonly만 하는 input 요소는 onchange 가 필요없다.</li>
+      <li>textarea 도 value로 값을 넣는다.</li>
+    </ul>
+    <pre class="brush: js; html-script: false; toolbar: false;">
+        function App() {
+          const [email, setEmail] = useState("");
+          const [value, setValue] = useState('');
+
+
+          const updateEmail = e => {
+            const {
+              target : {value}
+            } = e;
+            setEmail(value);
+          } 
+
+          const onChangeInput = (e) => {
+            setValue(e.target.value);
+          }
+          
+          return (
+            <div className="App">{count}
+              &lt;input placeholder="email" value={email} onChange={updateEmail} />
+              &lt;input type="number" value={value} onChange={onChangeInput} />
+            </div>
+          );
+        }
+    </pre>
+  </div><!-- section  끝 -->
+
+  <div class="section">
+    <h4 class="h4_bul">props의 전달</h4>
+    <p>부모요소에서 자식 요소로 props를 전달한다. 자식요소는 매개변수로 props를 전달 받는다.</p>
+    <pre class="brush: js; html-script: false; toolbar: false; highlight:[4, 9, 11]">
+      const App = () => {
+        return (
+          <div className="App">
+            &lt;FuncComp initNumber={2} />
+          </div>
+        );
+      }
+      
+      const FuncComp = (props)  => { 
+        return (
+          <p>Number : {props.initNumber}</p>
+        );
+      }</pre>
+
+    <h5>객체를 props로 전달</h5>
+
+<h5>객체를 props로 전달</h5>
+    <pre class="brush: js; html-script: false; toolbar: false;">
+      value = {try : this.state.value, resualt: "홈런"};
+      &lt;Baseball_Try key={`${index + 1}차 시도`} tryInfo={value} index={index}/>
+      
+      // 기본 형태의 props 전달
+      const Try = (props) => {
+        return (
+          <li>
+            <div>{props.tryInfo.try}</div>
+            <div>{props.tryInfo.resualt}</div>
+          </li>
+        )
+      }
+      
+      // 전달된 props를 구조분해 할 수 있다.
+      const Try = ({ tryInfo }) => {
+        return (
+          <li>
+            <div>{tryInfo.try}</div>
+            <div>{tryInfo.resualt}</div>
+          </li>
+        )
+      }
+    </pre>
+
+    <h5>지식요소에서 부모로부터 받은 props를 변경</h5>
+    <p>자식컴포넌트에서 부모컴포넌트로 부터 넘어온 props를 수정할 수 없다. props는 부모가 바꿔줘야 한다.<br />
+      단 실무에서 부득이 부모컴포넌트로부터 넘어온 props를 바꿔야 하는 경우가 있는데 그럴 경우 props를 state에 넣어서 변경한다. <br />
+      (부모의 props에 영향을 "안" 미침)</p>
+    <pre class="brush: js; html-script: false; toolbar: false;">
+      // 함수형 컴포넌트 (부모)
+      const PropsTransmissionFunc = () => {  
+
+
+        const [counter, setCounter] = useState(true);
+        const [text, setText] = useState("what??");      
+        return (
+          <div>
+            <div>counter : {counter.toString()}, text: {text}</div>
+            <PropsFunc text={text} counter={counter} />
+          </div>
+        )
+      }
+      // 함수형 컴포넌트 (자식)
+      const PropsFunc = (props) => {
+        //  props.text = "hello"; 부모로 받은 props를 직접 바꿀수 없다.
+        console.log("props: ", props);     
+        const [counter, setCounter] = useState(props.counter);
+        const [text, setText] = useState(props.text);     
+        const onClick = () => {
+             setCounter(false);
+             setText("변경됐다")
+
+         }          
+         return (
+          <div>
+            <p className="fwb">자식요소</p>
+            <div>counter: {counter.toString()}, text: {text}</div>
+            <button onClick={onClick}>props 변경</button>
+          </div>
+         )
+      }
+    </pre>
+  </div><!-- section  끝 -->
+
+  <div class="section">
+    <h4 class="h4_bul">LifeCycle</h4>
+    <p>hooks를 통해 지원됨.</p>
+
+    <h5>useEffect 사용</h5>
+    <pre class="brush: js; html-script: false; toolbar: false;">
+    useEffect(() => {
+        sayhello();
+    });
+
+    
+    useEffect(function() {
+        sayhello();
+    });
+    
+    useEffect(sayhello);
+    useEffect(sayhello, []);</pre>
+
+    <h5>useEffect</h5>
+    <ul class="list_bull">
+      <li>클래스컴포넌트 라이프 사이클에서 componentDidMount, conponentDidUpdate와 동일한 효과</li>
+    </ul>
+    <pre class="brush: js; html-script: false; toolbar: false;">
+      function FuncComp(props) {
+        //side effect : update 시 마다 호출
+        useEffect(() => {
+          console.log('%cfunc => useEffect(componentDidMount & componentDidUpdate' + (++funcId), funcStyle);
+        })
+      
+        // render 후 최초 1회 호출
+        useEffect(() => {
+
+
+    console.log('%cfunc => useEffect(componentDidMount & componentDidUpdate' + (++funcId), funcStyle);
+        }, [])
+        
+        // 최초렌더링 후, 특정 변수(state)가 업데이트 될 때 마다 호출
+        useEffect(() => {
+          console.log('%cfunc => useEffect(componentDidMount & componentDidUpdate' + (++funcId), funcStyle);
+        }, [변수명1, 변수명2])
+      
+        return (
+          <div class="container">...</div>
+        );
+      }</pre>
+
+    <h6>clean up</h6>
+    <ul class="list_bull">
+      <li>useEffect 최초실행시에는 호출되지 않는다. </li>
+      <li>update 시 본문함수를 건너뛰고 return 안의 구문을 먼저 실행하여 clean up 한뒤 본문의 함수를 실행한다. </li>
+    </ul>
+    <pre class="brush: js; html-script: false; toolbar: false;">
+          useEffect(() => {
+            //본문함수. 최초렌더링 시 실행 됨.
+
+            console.log("useEffect");
+           
+            //clean up 
+            return function() {
+              console.log("clean up");
+            }
+          }, [number])</pre>
+
+    <h6>함수컴포넌트에서 didmount 말고 didupdate에서만 실행하고 싶을 때</h6>
+    <pre class="brush: js; html-script: false; toolbar: false;">
+        const mounted = useRed(false);
+        useEffect(()=>{
+          if(!mounted.current) {
+            mounted.current = true;
+          } else {
+            //didupdate 시 실행할 코드
+          }
+        }, [바뀌는state])</pre>
+
+
+    <h6>컴포넌트가 실행될 때(componentDidMount) or 사라질때 (componentWillUnmount) 각각 한번만 실행되게 하려면?</h6>
+    <pre class="brush: js; html-script: false; toolbar: false;">
+          useEffect(() => {
+            console.log('componentDidMount 최초 1회만 실행 된다. 이후 update시 호출되지 않음.');
+            return function() {
+              console.log('componentWillUnmount');
+            }
+          }, [])   //두번째 인자로 빈 배열 전달.</pre>
+  </div><!-- section  끝 -->
+
+  <div class="section">
+    <h4 class="h4_bul">성능최적화</h4>
+    <p>class 컴포넌트는 state가 바뀌면 render 부분이 재 실행 되고, 함수 컴포넌트는 함수 전체가 다시 실행 된다. <br />
+      useMeMo, useCallback, useEffect 등을 이용해 최적화할 수 있다.</p>
+    <h5>memo</h5>
+    <ul class="list_bull">
+      <li>하이오더컴포넌트(hoc 고차함수). 컴포넌트를 다른 컴포넌트로 감싸는것. PureComponent, memo 는 <b>자식레벨 컴포넌트</b>를 감싸준다.</li>
+
+
+      <li>memo는 class component의 PureComponent과 같이 작동한다. 함수를 memo로 감싼다.</li>
+    <pre class="brush: js; html-script: false; toolbar: false;">
+      import React, { memo } from "react";
+
+      const Baseball_Try = memo(({ tryInfo }) => {
+          return (
+            <div>....</div>
+          )
+      })
+    </pre>
+
+    <h5>useMemo</h5>
+    <ul class="list_bull">
+      <li>함수형 컴포넌트는 새로 랜더링이 일어날 때 함수 전체가 다시 실행 된다.</li>
+      <li>useMemo를 사용하면 <b>함수의 리턴값을 기억</b>할 수 있다.. <br />컴포넌트가 새로 랜더링 할 때마다 컴포넌트 내, 외부에서 연결된 함수가 재 실행되지 않도록 한다.</li>
+    </ul>
+    <p></p>
+    <pre class="brush: js; html-script: false; toolbar: false;">
+      // getWinNumbers() 를 계속해서 호출하지 않도록 useMemo를 이용해 값을 기억한다. 두번째 인자로 빈 배열을 넣어준다.
+      function getWinNumbers() {
+        console.log('getWinNumbers');
+        // .......
+
+
+        return [...winNumbers, bonusNumber];
+      }
+  
+      const LottoFunc = () => {         
+        // const [winNumbers, setWinNumbers] = useState(getWinNumbers());
+        const lottoNumbers = useMemo(()=> getWinNumbers(), [])
+        const [winNumbers, setWinNumbers] = useState(lottoNumbers);
+        return (
+          // .....
+        )
+      }</pre>
+
+
+    <h5>useCallback</h5>
+    <ul class="list_bull">
+      <li>자식 컴포넌트에 onClick 이벤트가 있을 때 호출되는 함수는 useCallback을 반드시 사용해야 한다.<br />
+        그렇지 않으면 자식 컴포넌트가 생성 될 때마다 함수를 계속 재로드 하게 된다.</li>
+      <li>useCallback 함수자체를 기억하고 있다. 함수컴포넌트가 재 실행 되어도 useCallback으로 감싼 메서드는 재 실행하지 않는다.</li>
+
+
+    </ul>
+    <pre class="brush: js; html-script: false; toolbar: false;">
+    // 부모컴포넌트
+    const LottoFunc = () => { 
+      const onClickRedo = useCallback(() => {
+        console.log("useCallback2");
+        console.log(winNumbers); // 실행할때마다 변경되지 않고 동일한 값이 나옴.   
+      }, [winNumbers])
+      
+      return (
+        <div className="mb10">
+            { bonus && <Ball number={bonus} onClick={onClickRedo}/> }
+        </div>
+      );
+    }
+
+    // 자식컴포넌트
+    const Ball = memo(({ number }) => {
+      let background;  
+
+
+      if(number <= 10) {
+          background = 'red';
+      } else {
+          background = 'green';
+      }
+      return (
+          <div className="ball" style={{background}}>{number}</div>
+      )
+     })</pre>
+
+    <h6>react에서 contextmenu 제거 & useCallback</h6>
+
+    <pre class="brush: js; html-script: false; toolbar: false;">
+			const onRightClickTd = useCallback((e) => {
+				e.preventDefault();
+				console.log("마우스 우클릭");
+			}, []);
+		
+			return (
+				&lt;td onClick={onClickTd} onContextMenu={onRightClickTd} />	
+
+
+			);</pre>
+  </div><!-- section  끝 -->
+</div>
+<!-- 함수형 컴포넌트 끝 -->
+
+<!-- 반복문 시작 -->
+<div class="tab_box" id="loop">
+    <div class="section">
+      <h4 class="h4_bul">map()</h4>
+      <h5>일차원 배열</h5>
+      <pre class="brush: js; html-script: false; toolbar: false;">
+        tries = [1,2,3,4,5]
+        <ul>
+        {
+          this.state.tries.map((value)=>{
+            return(
+              <li>{value}</li>
+            )
+          })
+        }
+        </ul>
+      </pre>
+      <h5>이차원 배열</h5>
+      <pre class="brush: js; html-script: false; toolbar: false;">
+        <ul>
+          {
+            [['사과', '맛있다.'], ['바나나', '맛없다.'], ['포도', '맛있다.']].map((value)=>{
+               return(
+                  <li><b>{value[0]}</b> - {value[1]}</li>
+               )
+            })
+          }
+          </ul>
+          // value = ['사과', '맛있다.'] 한개씩 배열이 들어옴
+          // 사과 - 맛있다. 바나나 - 맛없다. 포도 - 맛있다.
+      </pre>
+      <h5>json 형태의 배열</h5>
+      <pre class="brush: js; html-script: false; toolbar: false;">
+        <ul>
+          {
+            [
+              { fruit: '사과', taste : '맛있다.'}, 
+              { fruit: '바나나', taste : '맛없다.'}, 
+              { fruit: '포도', taste : '맛있다.'}, 
+            ].map((value)=>{
+                return(
+                  &lt;li key={value.fruit}><b>{value.fruit}</b> - {value.taste}</li>
+               )
+            })
+          }
+        </ul>
+      </pre>
+      <h5>return의 생략</h5>
+      <p>화살표 함수는 return을 생략 할 수 있다. <b class="fc_orange">중괄호{ }가 없는 것은 바로 return임을 뜻함.</b> </p>
+      <pre class="brush: js; html-script: false; toolbar: false;">
+        Array.map((value) => {
+          return(
+            &lt;li key={value.fruit}><b>{value.fruit}</b> - {value.taste}</li>
+          )
+        })
+  
+        Array.map((value) => (
+          &lt;li key={v.fruit}><b>{value.fruit}</b> - {value.taste}</li>
+        ))
+  
+        Array.map((value) => <li key={v.fruit}><b>{value.fruit}</b> - {value.taste}</li>
+      </pre>
+    </div><!-- section  끝 -->
+  
+    <div class="section">
+      <h4 class="h4_bul">반복문과 key</h4>
+      <ul class="list_bull">
+        <li>react에서 반복문을 사용하여 엘리면트를 추가할 때 key를 넣어야 하는데 index를 넣으면 추후 성능 최적화시 문제가 되므로 값이 고유하더라도 사용하지 않는다.</li>
+        <li>react에서 key를 기준으로 엘리먼트를 추가하거나 수정, 삭제 판단을 하기 때문에 배열의 순서가 바뀌면 문제가 생김.</li>
+      </ul>
+      <pre class="brush: js; html-script: false; toolbar: false;">
+        [
+          { fruit: '사과', taste : '맛있다.', id: 'A1'}, 
+          { fruit: '바나나', taste : '맛없다.', id: 'A2'}, 
+          { fruit: '포도', taste : '맛있다.', id: 'A3'}, 
+        ].map((value, index) => (
+           <li key={index}><b>{value.fruit}</b> - {value.taste}</li>  // X
+           <li key={value.id}><b>{value.fruit}</b> - {value.taste}</li>  // O
+        ))
+      </pre>
+    </div><!-- section  끝 -->
+  </div>
+  <!-- 반복문 끝 -->
+  
+  <!-- 조건문 시작 -->
+  <div class="tab_box" id="condition">
+    <div class="section">
+      <h4 class="h4_bul">삼항연산자, 보호연산자</h4>
+      <pre class="brush: js; html-script: false; toolbar: false;">
+      // 삼항연산자
+      {
+        this.state.result.length === 0 
+        ?  null 
+        : <div>평균시간: {this.state.result.reduce((a, c) => a + c) / this.state.result.length}ms</div>
+      }
+      
+      // 보호연산자 (조건 && 실행)
+      {
+        this.state.result.length !== 0 
+        && <div>평균시간: {this.state.result.reduce((a, c) => a + c) / this.state.result.length}ms</div>
+      }</pre>
+  
+      <h5>메서드로 분리</h5>
+      <p>컴포넌트가 복잡할 때 함수로 분리할 수 있지만 자식컴포넌트로 분리하는 것이 더 좋다.</p>
+      <pre class="brush: js; html-script: false; toolbar: false;">
+        class App extends Component {
+          renderAverage = () => {
+            return this.state.result.length === 0 
+            ? null
+            : <div>평균시간: {result.reduce((a, c) => a + c) / result.length}ms</div>  // 
+          }
+          render() {
+            return (
+              <div>
+                {this.renderAverage()}
+              </div>
+            )
+          }
+        }</pre>
+  
+      <h5>삼항연산자를 이용한 토글</h5>
+      <pre class="brush: js; html-script: false; toolbar: false;">
+          turn: state.turn === 'O' ? 'X' : 'O',  
+        </pre>
+  
+      <h5>switch</h5>
+      <pre class="brush: js; html-script: false; toolbar: false;">
+      switch (code) {
+        case CODE.NORMAL :
+        case CODE.MINE :
+          return {
+            background: '#444',
+          }
+        case CODE.OPEND :
+          return {
+            background: '#fff',
+          }
+        default:
+          return {
+            background: '#fff',
+          }
+          // return state;
+      }
+      </pre>
+    </div><!-- section  끝 -->
+  </div>
+  <!-- 조건문 끝 -->
+  
+  
+  <!-- 'component life cycle' 탭 전체 변경 시작 -->
+  <!-- life cycle 시작 -->
+  <div class="tab_box" id="life_cycle">
+    <div class="section">
+      <h4 class="h4_bul">Class Component의 Lift Cycle</h4>
+      <p>레거시 메서드 : 여전히 작동하지만, 새로 작성하는 코드에서는 사용하지 않을 것을 권장합니다. 17 버전까지만 지원예정<br />
+        componentWillMount(), componentWillUpdate(), componentWillReceiveProps()
+      </p>
+      <h5 class="txt_blue">mounting (컴포넌트의 생성) - 순서대로 호출됨.</h5>
+      <ul class="list_count">
+        <li>constructor() : 생성전</li>
+        <li>static getDerivedStateFromProps()</li>
+        <li>render() : 생성시</li>
+        <li>componentDidMount() : 생성 후 호출</li>
+      </ul>
+  
+      <pre class="brush: js; html-script: false; toolbar: false; ">
+        class App extends React.Component {
+          constructor(props) {
+            super(props);
+            console.log("생성전");
+            state = {
+              result: '',
+              imgCoord: 0,
+              score : 0,
+            }
+          }       
+          componentDidMount() {
+            console.log("생성후");
+            // const { imgCoord } = this.state; 밖에 두면 interval 안에서 해당 값을 참조할 수 없다.
+            // 비동기 요청 많이 함. setInterval
+            this.interval = setInterval(()=>{
+                // 비동기 함수(Interval)안에서 바깥 변수를 참조할 수 없다. 클로저 문제
+                const { imgCoord } = this.state;
+                console.log("imgCoord", imgCoord)
+                if(imgCoord === repCoords.바위) {
+                    //...
+                } 
+            }, 1000)
+          }
+          componentDidUpdate() {
+            console.log("업데이트후")
+          }
+          componentWillUnmount() {
+            console.log("소멸시")
+          }
+          render(){
+            console.log("생성중")
+            return (
+            <div>
+              <h1>리턴 {this.state.count}</h1>
+              <button onClick={this.plus}>plus</button>
+              <button onClick={this.minus}>minus</button>
+            </div>
+            )
+          }
+        }
+      </pre>
+  
+      <h5 class="txt_blue">updating (업데이트) - 순서대로 호출됨.</h5>
+      <ul class="list_count">
+        <li>static getDerivedStateFromProps()</li>
+        <li>shouldComponentUpdate()</li>
+        <li>render()</li>
+        <li>getSnapshotBeforeUpdate()</li>
+        <li>componentDidUpdate()</li>
+      </ul>
+  
+      <h6>shouldComponentUpdate() : 업데이트 전</h6>
+      <ul class="list_bull">
+        <li>return값이 있어야 하며 true이면 render를 호출, false 이면 호출하지 않음. 성능과 관계된 lifecycle</li>
+        <li>내부에 조건문을 두어 props가 바뀌는 지 체크</li>
+        <li>대부분의 경우 shouldComponentUpdate를 쓰는 대신 React.PureComponent를 사용할 수 있습니다.</li>
+        <li>클래스형 컴포넌트에서 shouldComponentUpdate 가 필요한 경우 PureComponent가 아닌 일반 Component를 사용한다.</li>
+      </ul>
+      <pre class="brush: js; html-script: false; toolbar: false;">
+  
+        class LifeCycleClass extends React.Component {
+          constructor(props) {
+            super(props);
+            this.state = {count: 1};
+          }
+  
+          shouldComponentUpdate(nextProps, nextState) {
+              console.log(nextProps, nextState);
+  
+              if(this.props.color !== nextProps.color) {
+                return true; // 렌더 호출
+              }
+  
+              if(this.state.count !== nextState.count) {
+                  return true;  // 렌더 호출
+              }
+              return false;  // 렌더를 호출하지 않음.
+          }
+  
+          componentDidUpdate() {
+            console.log("componentDidUpdate : 컴포넌트 업데이트(렌더링) 후. 최초 렌더링에서는 호출되지 않음.");
+          }
+    
+          render() {
+            console.log("렌더링", this.state);
+            return (
+              &lt;button onClick={() => this.setState(state => ({count: state.count + 1}))}>클릭</button>
+            )
+          }
+        }
+      </pre>
+  
+  
+      <h5 class="txt_blue">unmounting (소멸 : 페이지 전환, 컴포넌트 변경 등)</h5>
+      <ul class="list_count">
+        <li>componentWillUnmount() </li>
+      </ul>
+      <pre class="brush: js; html-script: false; toolbar: false;">
+        componentWillUnmount() {
+          console.log("componentWillUnmount : 컴포넌트 제거되기 직전");
+          // 비동기 요청 제거 많이 함. clearInterval
+          // 제거해주지 않으면 컴포넌트가 unmount 되어 화면에 나타나지 않아도 계속 setInterval이 발행함.
+          clearInterval(this.interval);
+        }
+      </pre>
+  
+    </div><!-- section  끝 -->
+  
+  
+    <div class="section">
+      <h4 class="h4_bul">Function Component의 Lift Cycle</h4>
+  
+    </div><!-- section  끝 -->
+  </div>
+  <!-- life cycle 끝 -->
+  <!-- 'component life cycle' 탭 전체 변경 끝 -->
+  
+  
+  <!-- 이벤트 시작 -->
+  <div class="tab_box" id="event">
+    <div class="section">
+      <h4 class="h4_bul">onClick과 고차함수(high order function)</h4>
+      <h5>함수패턴</h5>
+      <pre class="brush: js; html-script: false; toolbar: false;">
+        class RSPClass extends React.Component { 
+          onClickBtn = (choice) => {
+            console.log(choice);
+          }
+          render() {
+            return (
+              &lt;button id="rock" className="ant-btn" onClick={()=> this.onClickBtn('바위')}>바위&lt;/button>
+            );
+          }
+        }
+  
+        class RSPClass extends React.Component { 
+          onClickBtn = (choice) => (e) => {
+            e.preventDefault;
+            console.log(choice);
+          }
+          render() {
+            return (
+              &lt;button id="rock" className="ant-btn" onClick={this.onClickBtn('바위')}>바위&lt;/button>
+            );
+          }
+        }</pre>
+      <p class="info">고차함수로 바꾸기 전에 () => this.onClickBtn('바위') 에서 () => 를 빼면 랜더링 에러가 난다.
+        () => 는 왜 들어갈 까?<br />
+        리액트에서 onClick 자리에는 함수가 들어가야 한다.<br />
+  
+        this.onClickScreen은 함수입니다. this.onClickBtn도 (고차)함수입니다. this.onClickBtn('바위')도 함수입니다. <br />그래서 셋 다 onClick에 넣을 수
+        있긴 합니다.<br />
+        다만 this.onClickBtn은 ('바위')로 호출을 해서 return되는 함수를 넣는게 목적상 맞습니다. <br />애초에 고차함수를 쓰는 이유가 함수를 확장하고싶은데 결과물로는 다시 함수가
+        나와야해서 사용했던것입니다.<br />
+        <b>()가 붙으면 return값이 들어간다고 보시면 되고, ()가 안 붙으면 함수 그 자체가 값으로 들어갑니다.</b><br />
+        this.onClickBtn('바위')는 함수를 실행한거라 return값을 봐야하는데 return 값도 함수인 것입니다.
+      </p>
+    </div><!-- section  끝 -->
+  
+    <div class="section">
+      <h4 class="h4_bul">부모, 자식 컴포넌트 간 이벤트 전달</h4>
+      <pre class="brush: js; html-script: false; toolbar: false;">
+        const TicTacToeFunc = () => {
+        const [state, dispatch] = useReducer(reducer, initalState);
+        // const [winner, setWinner] = useState('');
+        // const [turn, setTurn] = useState('O');
+        // const [tableData, setTableData] = useState([['', '', ''], ['', '', ''], ['', '', '']]);
+      
+        const onClickTable = useCallback(() => {
+            console.log("table.click");
+            // dispatch 안에 들어가는 것 : 액션, 즉 액션 객체
+            // dispatch : 액션을 실행한다.
+            dispatch({ type: 'SET_WINNER', winner: 'O' })
+        }, []);
+      
+        return (
+          &lt;Styles>
+            &lt;Table onClick={onClickTable}/>
+            {state.winner && <div>{state.winner}님의 승리</div>}
+          &lt;/Styles>
+        );
+      }
+      
+      //자식 컴포넌트
+      const Table = ({ onClick }) => {
+        return (
+          &lt;table onClick={onClick}>
+            &lt;Tr />
+          &lt;/table>
+        );
+      }
+       </pre>
+  
+    </div><!-- section  끝 -->
+  </div>
+  <!-- 이벤트 끝 -->
+
+  <!--------------------------------------------------------------------------------------------------------------------------------  
+  javascript / 
+  배열과객체/ 
+  배열/ 
+  js_array.html 
+-------------------------------------------------------------------------------------------------------------------------------->
+<!-- Array.from() 시작 -->
+<h5>Array.from()</h5>
+<p>유사 배열 객체(array-like object)나반복 가능한 객체(iterable object)를 <b>얕게 복사해 새로운Array 객체를 만듭</b>니다. (iE X)</p>
+
+<h6>얕은 복사를 이용한 새로운 배열 생성 (불변성)</h6>
+<pre class="brush: js; html-script: false; toolbar: false;">
+console.log(Array.from('foo s'));
+// expected output: Array ["f", "o", "o", " ", "s"]
+
+console.log(Array.from([1, 2, 3], x => x + x));
+// expected output: Array [2, 4, 6]
+
+Array.from({length: 5}, (v, i) => i);
+// [0, 1, 2, 3, 4]
+
+// 불변성을 위한 코드
+let contents = [
+  { id: 1, title: "html", desc: "html is..." },
+  { id: 2, title: "css", desc: "css is..." },
+  { id: 3, title: "javascript", desc: "javascript is..." },
+];
+  
+var _contents = Array.from(contents);
+_contents.push({id: max_content_id, title:_title, desc:_desc});
+contents = _contents;
+
+// var _contents = this.state.contents.concat(
+//   {id:this.max_content_id, title:_title, desc:_desc}
+// )</pre>
+<p class="info">배열을 변경해야 할 때 배열 원본을 수정하는 것보다. copy본을 만들어 수정후 업데이트 하는것이 성능 개선에 좋다.<br />
+  Array.from(arr) 을 통해 새로운 배열을 생성해 변수에 넣은 뒤 push 한다. </p>
+
+<h6>유사배열 순회</h6>
+<pre class="brush: js; html-script: false; toolbar: false;">
+  var li = document.getElementsByTagName("li");
+  Array.from(li).forEach(function(elem) { 
+    elem.style.color = "red"
+  });
+
+  //복수의 엘리먼트에 이벤트리스너 등록
+  Array.from(colors).forEach(color => color.addEventListener("click", handleColorClick));</pre>
+
+<p class="info">유사배열을 forEach 문으로 순회하려면 Araray.from(유사배열)을 씌워주어야 함.</p>
+<!-- Array.from() 끝 -->
+
+<!-- Array 객체의 메서드 시작 -->
+<li><b>.concat()</b> : 매개변수로 입력한 요소를 배열에 추가, 새로운 배열을 반환하며 기존 배열을 변경하지 않는다.</li>
+<!-- Array 객체의 메서드 끝 -->
+
+
+
+<!-- 'ECMAScript5 에서 추가된 Array 객체의 메서드' 추가 시작 -->
+<h6>Array.map()을 이용한 컨텐츠 동적 생성 (in react)</h6>
+<pre class="brush: js; html-script: false; toolbar: false;">
+  const content = [
+    {
+      tab : "section 1",
+      content : "I'm the content of the Section 1"
+    }, 
+    {
+      tab : "section 2",
+      content : "I'm the content of the Section 2"
+    }
+  ]
+  
+  function App() {
+    return (
+      <div className="App">
+      {
+        content.map((section) => (
+          &lt;button>{section.tab}&lt;/button>   //section은 content 배열의 각 아이템을 변수로 받은 것
+        ))
+      }
+      </div>
+    );
+}</pre>
+<!-- 'ECMAScript5 에서 추가된 Array 객체의 메서드' 추가  끝 -->
+
+<!-- 변경 전 -->
+<p class="info">유사배열을 forEach 문으로 순회하려면 Araray.from(유사배열)을 씌워주어야 함.</p>
+<!-- 변경 후 -->
+<p class="info">유사배열을 forEach, for 문을 돌아야 한다면 Araray.from(유사배열)을 씌워 배열로 변환해야 한다.</p>
+
+
+<!-- ''.concat() : 배열에 값을 추가' 뒤에 추가 -->
+<h5>.apply()</h5>
+<ul class="list_bull">
+  <li>객체 또는 배열을 전달하는 메서드: 배열에 배열을 붙이기 위해 apply 사용하기</li>
+  <li>concat은 기존배열에 추가하지 않고 새 배열을 반환하지만, apply는 기존 배열에 추가 한다.</li>
+</ul>
+<h6>배열에 배열 추가</h6>
+<pre class="brush: js; html-script: false; toolbar: false;">
+var array = ['a', 'b'];
+var elements = [0, 1, 2];
+array.push.apply(array, elements);
+console.info(array); // ["a", "b", 0, 1, 2]</pre>
+
+<h6>객체의 메서드에 접근</h6>
+<pre class="brush: js; html-script: false; toolbar: false;">
+var person = {
+  fullName: function() {
+    return this.firstName + " " + this.lastName;
+  }
+}
+var person1 = {
+  firstName: "Mary",
+  lastName: "Doe"
+}
+person.fullName.apply(person1);  // Will return "Mary Doe"</pre>
+<!-- ''.concat() : 배열에 값을 추가' 뒤에 추가 -->
+
+
+
+<!-- '.splice(), .join()' 뒤에 추가 -->
+<h5>숫자 네개를 겹치지 않고 랜덤하게 뽑는 함수(셔플정렬) : splice(), .join(), push()</h5>
+<pre class="brush: js; html-script: false; toolbar: false;">
+         function getNumbers() {
+            const candidate = [1,2,3,4,5,6,7,8,9];
+            const array = [];
+            for(let i = 0; i &lt; 4; i++) {
+               const chosen = candidate.splice(Math.floor(Math.random() * (9 - i)), 1)[0];
+               console.log(chosen, candidate);
+               // 9 (8) [1, 2, 3, 4, 5, 6, 7, 8]
+               // 4 (7) [1, 2, 3, 5, 6, 7, 8]
+               // 3 (6) [1, 2, 5, 6, 7, 8]
+               // 7 (5) [1, 2, 5, 6, 8]
+               // splice(n,n)[0] 에서 [0]을 안붙일경우 잘라낸 숫자가 배열에 담긴 채로 반환 됨. 
+               //[9] (8) [1, 2, 3, 4, 5, 6, 7, 8]
+               array.push(chosen);
+            }
+            console.log(array); //[9,4,3,7]
+            console.log(array.join('')); //"9368"
+            console.log(typeof array.join(''));  //string
+            return array;
+         }</pre>
+
+<h5>로또번호 뽑기(셔플정렬) : splice(), .slice(), push()</h5>
+<pre class="brush: js; html-script: false; toolbar: false;">
+         function getWinNumbers() {
+            console.log('getWinNumbers');
+            const candidate = Array(45).fill().map((v,i) => i + 1);  // 배열에 1부터 ~ 45까지 숫자 넣기 [1, 2, 3 ....., 45]
+            const shuffle = [];
+            while(candidate.length > 0) {
+               // splice는 배열을 반환하므로 배열의 값을 꺼내기 위해 [0]을 붙여줌.
+               shuffle.push(candidate.splice(Math.floor(Math.random() * candidate.length), 1)[0]);
+            }
+            // console.log(shuffle); // 랜덤한 순서로 candidate의 숫자가 들어었는 배열
+            const bonusNumber = shuffle[shuffle.length - 1];
+            const winNumbers = shuffle.slice(0, 6).sort((a, b) => a - b);
+            return [...winNumbers, bonusNumber];
+         }   
+         getWinNumbers() // [4, 7, 20, 21, 36, 44, 5]</pre>
+
+<!-- '.splice(), .join()' 뒤에 추가 -->
+
+
+<!-- '.push() : 배열에 값을 추가(마지막에 추가)' 뒤에 추가 -->
+<h6>배열에 값을 추가하는 방법 .push 대신 사용. [...기존값, 추가할 값]</h6>
+<pre class="brush: js; html-script: false; toolbar: false;">
+const tries = [];
+tries = [...tries, {try : this.state.value, resualt: "홈런"}]</pre>
+<!-- '.push() : 배열에 값을 추가(마지막에 추가)' 뒤에 추가 -->
+
+
+<!-- 'ECMAScript5 - reduce(), reduceRight()' 뒤에 추가 -->
+<h5>reduce()를 이용해 평균 구하기</h5>
+<pre class="brush: js; html-script: false; toolbar: false;">
+  var result = [1, 2, 3, 4, 5, 6]
+  var avrg = result.reduce((a, c) => a + c) / result.length
+  console.log(avrg) // 3.5
+</pre>
+<!-- 'ECMAScript5 - reduce(), reduceRight()' 뒤에 추가 -->
+
+
+<!-- '<h5>.filter() - 콜백함수</h5>' 의 pre 중간에  추가 -->
+// 배열에서 조건을 만족하는 것들만 추려 새로운 배열을 만든 후, 몇개가 만족하는지 알 수 있다.
+const around = [-1, -1, -7, -1, -3, -1, -1, -1]
+const count = around.filter((v) => [-7, -3].includes(v));
+console.log("count", count); // [-7, -3]
+console.log("몇개의지뢰가 있는가?", count.length); //2
+<!-- '<h5>.filter() - 콜백함수</h5>' 의 pre 중간에  추가 -->
+
+<!-------------------------------------------------------------------------------------------------------------------------------- 
+  javascript / 
+  JavaScript BOM/ 
+  window / 
+  js_bom.html 
+---------------------------------------------------------------------------------------------------------------------------------->
+<!-- 추가 -->
+<div class="section">
+  <h4 class="h4_bul">Confirm 의 if 문</h4>
+  <pre class="brush: js; html-script: false; toolbar: false;">
+  if(window.confirm("really? ")) {
+    // true
+  } else {
+    // false
+  }</pre>
+</div><!-- section 끝 -->
+
+<div class="section">
+  <h4 class="h4_bul">Console</h4>
+  <h5>console.log에 컬러 찍는방법 (콘솔에 찍히는 값이 많을 때 유용)</h5>
+  <pre class="brush: js; html-script: false; toolbar: false;">
+  var funcStyle = "color:red";
+  console.log("%c콘솔이 찍힌다.", funcStyle)
+  console.log('%c텍스트는 파란색으로 출력된다', 'color:blue')</pre>
+</div><!-- section 끝 -->
+
+<!--'window 객체의 메서드' 뒤에 추가-->
+<div class="section">
+  <h4 class="h4_bul">window 객체의 속성</h4>
+  <ul class="list_bull">
+    <li>scrollX, scrollY : scroll 된 위치값.(ie의 경우 pageXOffset, pageYOffset)</li>
+  </ul>
+</div><!-- section  끝 -->
+
+<!-- 수정-->
+<li>scrollTo(x, y) : 윈도우의 스크롤의 위치를 절대적으로 이동 (IE9 이하 scrollLeft(n), scrollTop(n))</li>
+
+
+
+<!--------------------------------------------------------------------------------------------------------------------------------
+  Front/BackEnd / 
+  React/ 
+  React 플러그인 / 메뉴 추가
+  FR_react_plugin.html
+---------------------------------------------------------------------------------------------------------------------------------->
+
+<h3 class="h3_bul">React 플러그인</h3>
+
+<div class="tab_list">
+  <ul class="tab_btns">
+    <li><a href="#debug" class="on">디버깅</a></li>
+    <li><a href="#router">React router</a></li>
+    <li><a href="#antd">Antd</a></li>
+  </ul>
+
+  <!-- 디버깅 시작 -->
+  <div class="tab_box on" id="debug">
+    <div class="section">
+      <h4 class="h4_bul">디버깅</h4>
+      <ul class="list_bull">
+        <li>React Developer Tools: 크롬 확장기능</li>
+        <li>ESLint, Prettier: 설치 참고 <a href="https://blog.naver.com/minhyupp/222152333557"
+            target="_blank">https://blog.naver.com/minhyupp/222152333557</a></li>
+      </ul>
+    </div><!-- section  끝 -->
+
+  </div>
+  <!-- 디버깅 끝 -->
+
+
+  <!-- React router 시작 -->
+  <div class="tab_box" id="router">
+    <div class="section">
+      <h4 class="h4_bul">React router</h4>
+      <p>리액트로 된 페이지는 url로 찾아올수없는데 router를 이용하면 url에 따라 적절한 컴포넌트를 실행해 페이지를 보여 줄수 있다.<br />
+        react native 하나의 코드로 ios, 안드로이드 모두 구동이 가능한 앱을 만들 수 있다.</p>
+    </div>
+  </div>
+  <!-- React router 끝 -->
+
+  <!-- antd 시작 -->
+  <div class="tab_box" id="antd">
+    <div class="section">
+      <h4 class="h4_bul">Modal</h4>
+      <h5>모달 렌더링 위치</h5>
+      <p><b>getPopupContainer={(triggerNode) => triggerNode}</b>를 호출될 컴포넌트에 추가한다.</p>
+      <pre class="brush: js; html-script: false; toolbar: false;">
+      &lt;Dropdown overlay={overlayMenu} trigger={['click']} getPopupContainer={(triggerNode) => triggerNode}>
+        &lt;button className="btn-avatar" onClick={getProfileMenus}>
+          &lt;Avatar size={40} empNo={empNo} />
+        &lt;/button>
+      &lt;/Dropdown>
+      </pre>
+    </div>
+  </div>
+  <!-- antd 끝 -->
+
+</div><!-- 탭 끝 -->
+
+<!--------------------------------------------------------------------------------------------------------------------------------
+  Front/BackEnd / 
+  React/ 
+  React Hook/ 에 추가
+  FR_react_hook.html  파일 전체
+---------------------------------------------------------------------------------------------------------------------------------->
+
+<<h3 class="h3_bul">React Hook</h3>
+
+  <div class="tab_list">
+    <ul class="tab_btns">
+      <li><a href="#useState" class="on">useState</a></li>
+      <li><a href="#useRef">useRef</a></li>
+      <li><a href="#useReducer">useReducer</a></li>
+      <li><a href="#custom">Custom Hook</a></li>
+
+    </ul>
+
+    <!-- useState 시작 -->
+    <div class="tab_box on" id="useState">
+      <div class="section">
+        <h4 class="h4_bul">Hooks 공통</h4>
+        <ul class="list_bull">
+          <li>hook는 함수컴포넌트의 최 상위에 넣는다.</li>
+          <li>hooks는 조건문 안에서 사용할수 없다. 함수나 반복문 안에도 웬만하면 넣지 않는다. useEffect 등 안에도 useState등 의 hooks를 쓰지 않는다.</li>
+        </ul>
+        <pre class="brush: js; html-script: false; toolbar: false;">
+            if(조건) {
+               const [state, setState] = useState(true); // X
+              }
+              
+            const func = () => {
+               //hooks
+               const [state, setState] = useState(true);
+               const [state, setState] = useState(true);
+               useEffect(() => {      
+               }
+               
+               //기타메서드
+               const innerFunc = () => {   
+               }
+               //리턴
+               return (
+               )
+            }</pre>
+
+
+
+      </div><!-- section  끝 -->
+      <div class="section">
+        <h4 class="h4_bul">useState</h4>
+        <p>축약형의 경우 useState가 배열을 리턴하기 때문에 배열형태의 변수를 지정한다. [_date, setDate]. 받은값이 배열이 되는 것이 아니다.</p>
+        <pre class="brush: js; html-script: false; toolbar: false;">
+         function FuncComp(props) { 
+             var numberState = useState(props.initNumber);
+             var number = numberState[0];  // 초기값
+             var setNumber = numberState[1];  // 변경 함수
+                   
+             // 축약형
+             var [_date, setDate] = useState("초기값")   //최초세팅값.
+            
+             return (
+               <div class="container">
+               &lt;button onClick={() => {
+                  setDate("변경값");
+               }}>useState</button>
+             );
+            }
+         </pre>
+        <h5>useState를 통해 화면에 show/hide 토글</h5>
+        <pre class="brush: js; html-script: false; toolbar: false;">
+         function App() {
+           var [funcShow, setFuncShow] = useState(true);
+           return (
+            <div className="App">
+               &lt;input type="button" value="showHide" onClick={function(){
+                  setFuncShow(false);
+               }} />
+               {funcShow ? &lt;FuncComp /> : null}
+            </div>
+           );
+         }</pre>
+      </div><!-- section  끝 -->
+    </div>
+    <!-- useState 끝 -->
+
+
+
+    <!-- useRef 시작 -->
+    <div class="tab_box" id="useRef">
+      <div class="section">
+        <h4 class="h4_bul">useRef</h4>
+        <h5>useRef와 custom hook(useClick)</h5>
+        <pre class="brush: js; html-script: false; toolbar: false;">
+         import React, { useEffect, useRef } from "react";
+
+         const useClick = (onClick) => {
+            const element = useRef();
+            useEffect(() => {
+            if (element.current) {
+               element.current.addEventListener("click", onClick);
+            }
+            });
+            return element;
+         };
+         
+         const App = () => {
+            const sayHello = () => console.log("hello");
+            const title = useClick(sayHello);
+            return (
+            <div className="App">
+               <h1 ref={title}>hi</h1>
+            </div>
+            );
+         };
+         
+         export default App;</pre>
+
+      </div><!-- section  끝 -->
+      <div class="section">
+        <h4 class="h4_bul">useRef와 timeout, setInterval</h4>
+        <ul class="list_bull">
+          <li>useRef 는 Dom을 컨트롤 할때, state와 다르게 값이 바뀌어도 render가 다시 실행되지 않는다. <br />화면을 바꾸고 싶지 않은데. 값이 바뀌어야 하는 경우
+            Ref를 사용한다.</li>
+          <li>timeout이나 interval 등은 Ref에 넣어 사용한다.</li>
+        </ul>
+        <pre class="brush: js; html-script: false; toolbar: false;">
+            const timeout = useRef(null);
+            const startTime = useRef()
+            const endTime = useRef()
+
+            const onClickScreen = () => {
+            if(state === 'waiting') {
+               setState("ready");
+               setMsg('초록색이 되면 클릭하세요.');
+               
+               timeout.current = setTimeout(()=>{
+                  setState("now");
+                  setMsg('지금 클릭하세요');
+               }, Math.floor(Math.random()*1000) + 2000) // 2~3초 랜덤
+               startTime.current = new Date();
+
+            } else if (state === 'ready') { // 성급하게 클릭
+
+               clearTimeout(timeout.current);
+               setState("waiting");
+               setMsg('성급하시군요, 초록색이 된 후에 클릭하세요');
+
+            } else if (state === 'now') { // 반응속도 체크
+
+               endTime.current = new Date();
+               setState("waiting");
+               setMsg('클릭해서 시작하세요');
+               setResult((prevResult) => {
+                  return [...prevResult, endTime.current - startTime.current]
+               });
+            }</pre>
+      </div><!-- section  끝 -->
+    </div>
+    <!-- useRef 끝 -->
+
+    <!-- useReducer 시작 -->
+    <div class="tab_box" id="useReducer">
+      <div class="section">
+        <h4 class="h4_bul">useReducer</h4>
+        <p>리덕스에서 온 개념.<br> 변경해야할 state가 많을 때 변수 선언이 많아지고 비효율적이 되므로 <br />
+          많은 state를 한꺼번에 관리하기 위해서 사용된다.. action을 분리하고 reducer에서 case 별로 처리한다.</p>
+        <pre class="brush: js; html-script: false; toolbar: false;">
+            const initalState = {
+               winner: '',
+               turn: 'O',
+               tableData: [['', '', ''], ['', '', ''], ['', '', '']],
+            }
+            
+            const reducer = (state, action) => {
+               // 액션을 dispatch 할 때마다 reducer 부분이 실행된다.
+               switch (action.type) {
+                  // state.winner = action.winner   //state를 직접 바꾸면 안된다. 새로운 객체를 만들어 바뀐값만 바꿔주어야 한다.
+                  case 'SET_WINNER' :
+                     return {
+                        ...state,  //기존 state 얕은 복사
+                        winner: action.winner,  // 바뀔 부분만 바꾸어 줌.
+                     }
+                  default:
+                     console.log("default");
+               }   
+            }
+            
+            const TicTacToeFunc = () => {
+               const [state, dispatch] = useReducer(reducer, initalState);
+               // const [winner, setWinner] = useState('');
+               // const [turn, setTurn] = useState('O');
+               // const [tableData, setTableData] = useState([['', '', ''], ['', '', ''], ['', '', '']]);
+            
+               const onClickTable = useCallback(() => {
+                  console.log("table.click");
+                  // dispatch 안에 들어가는 것 : 액션, 즉 액션 객체
+                  // dispatch : 액션을 실행한다.
+                  dispatch({ type: 'SET_WINNER', winner: 'O' })
+               }, []);
+            
+               return (
+                  <Styles>
+                     <h1>틱택톡 : useReducer, 부모 자식 요소 간 이벤트 전달, </h1>
+                     <Table onClick={onClickTable}/>
+                     {state.winner && <div>{state.winner}님의 승리</div>}
+                  </Styles>
+               );
+            }
+            
+            export default TicTacToeFunc;   
+         </pre>
+      </div><!-- section  끝 -->
+    </div>
+    <!-- useReducer 끝 -->
+
+    <!-- custom hook 시작 -->
+    <div class="tab_box" id="custom">
+      <div class="section">
+        <h4 class="h4_bul">useInput</h4>
+        <pre class="brush: js; html-script: false; toolbar: false;">
+            const useInput = (initialValue) => {
+              const [value, setValue] = useState(initialValue);   //value = "Mr.", setValue = ƒ ()
+              const onChange = event => {
+               const { 
+                 target : {value}
+               } = event;
+               setValue(value)
+              };
+              return  {value, onChange}   //return 시 value 만 넘기면 string이 name = "Mr/"} , {} 로 감싸면 객체가 넘어감.
+            }
+            
+            function App() {
+              const name = useInput("Mr."); //name = {value: "Mr/"} . name에 객체가 담김.
+              return (
+               <div className="App">
+                 &lt;input placeholder="Name" value={name.value} onChange={name.onChange} />
+                 &lt;input placeholder="Name" {...name} />
+               </div>
+              );
+            }
+           </pre>
+
+      </div><!-- section  끝 -->
+    </div>
+    <!-- custom hook 끝 -->
+
+  </div><!-- 탭 끝 -->
+
+  <!--------------------------------------------------------------------------------------------------------------------------------
+  Front/BackEnd / 
+  GitHub, git/ 
+  GitHub 탭 에 추가
+  FR_GIT.html
+---------------------------------------------------------------------------------------------------------------------------------->
+
+  <div class="section">
+    <h4 class="h4_bul">pull, push, commit</h4>
+    <pre class="brush: js; html-script: false; toolbar: false;">
+    // update
+    git pull origin master
+    git pull origin eunhee
+    
+    // 스테이징으로 올린 뒤
+    git commit -m "변경된 사항"
+    git push -u origin eunhee</pre>
+  </div><!-- section  끝 -->
+
+  <div class="section">
+    <h4 class="h4_bul">stash : git pull 충돌시</h4>
+    <pre class="brush: js; html-script: false; toolbar: false;">
+  git stash // 나의 작업 사항을 임시저장 --> STASHES에 저장 되었는지 확인
+  git pull branch
+  git stash apply</pre>
+  </div><!-- section  끝 -->
+
+
+  <!--------------------------------------------------------------------------------------------------------------------------------
+  Front/BackEnd / 
+  webpack, babel/ 
+  개발환경 설정 에 추가
+  FR_webpack.html
+---------------------------------------------------------------------------------------------------------------------------------->
+  <!-- 개발환경 설정 탭 통째로 변경 --->
+
+  <!-- 개발환경설정 시작 -->
+  <div class="tab_box on" id="project">
+    <div class="section">
+      <h4 class="h4_bul">node 기반 프로젝트 생성</h4>
+      <ul class="list_count">
+        <li><b>node, npm 설치</b></li>
+        <li>
+          <p class="mb10"><b>프로젝트 생성</b></p>
+          <pre class="brush: sql; html-script: false; toolbar: false; ">
+        // 3.1 폴더생성
+        mkdir _study_webpack
+
+        //3.2 폴더로 이동
+        cd _study_webpack
+
+        //3.3 프로젝트 초기화 (기존 폴더 있을 경우. 기존폴더 위치에서 터미널을 생성한뒤 npm init)
+        npm init -y  // or npm init</pre>
+          <p class="info"><b>npm init -y</b> : -y는 초기화 할 때 설정값을 모두 기본값 (default vlaue) 로 지정하겠다는 의미. 프로젝트 초기화가
+            되면
+            <b>pakage.json</b> 파일이 생성된다.
+          </p>
+        </li>
+        <li>
+          <p class="mb10"><b>react, react-dom</b></p>
+          <pre class="brush: js; html-script: false; toolbar: false; ">
+        npm i react react-dom</pre>
+        </li>
+        <li>
+          <p class="mb10"><b>webpack-dev-server와 리액드 핫로더 설치</b></p>
+          <pre class="brush: js; html-script: false; toolbar: false; ">
+          npx install --save-dav webpack-dev-server
+           // 또는  
+           npm i -D webpack-dev-server
+          npm i react-refresh @pmmmwh/react-refresh-webpack-plugin -D</pre>
+          <p class="info">react-refresh 등을 설치하여 hot re loading이 셋팅 되면 코드 에러 시 브라우저에서 알려준다. 디거깅됨</p>
+        </li>
+        <li>
+          <p class="mb10"><b>webpack, webpack-cli 설치</b></p>
+          <pre class="brush: js; html-script: false; toolbar: false; ">
+        npm install webpack webpack-cli --save-dev // or
+        npm i -D webpack webpack-cli</pre>
+          <p class="info">package.json 에 추가되고 node_modules 폴더가 생성됨.</p>
+        </li>
+        <li>
+          <p class="mb10"><b>babel 설치</b></p>
+          <pre class="brush: js; html-script: false; toolbar: false; ">
+          npm i -D @babel/core @babel/preset-env
+          npm install -D  @babel/preset-react
+          npm install babel-loader    //바벨 웹팩 연결
+          npm install -D @babel/plugin-proposal-class-properties</pre>
+          <p class="info">babel-preset-env 구글 검색후 설치 방법 따를것. (설치방법이 조금씩 바뀜.). <br />
+            preset-env : 하위브라우저 호환성 을 위한 플러그인</p>
+        </li>
+      </ul>
+    </div><!-- section  끝 -->
+
+    <div class="section">
+      <h4 class="h4_bul">기본 폴더구조 설정과 파일 생성</h4>
+      <ul class="list_count">
+        <li>루트폴더에 <b>index.html 파일을 생성</b>한다. index.html 파일은 웹팩이나, 리액트등을 이용해 렌더링(번들링)된 컴포넌트들이 들어가는 곳이다.<br><br>
+          <pre class="brush: html; html-script: false; toolbar: false;">
+        &lt;!DOCTYPE html>
+        &lt;html>
+          &lt;head>
+          <title>React Webpack Babel Setup</title>
+          &lt;/head>
+          &lt;body>
+          <div id="root"></div>
+          &lt;script src="./index_bundle.js">&lt;/script>
+          &lt;/body>
+        &lt;/html></pre>
+        </li>
+        <li>프로젝트 루트에 <b>src(작업파일), dist(번들링파일) 폴더를 생성</b>한다.</li>
+        <li>src 폴더에 <b>index.js</b> 파일을 생성한다. 엔트리 포인트이자 컴포넌트이다. (소문자 index)
+          <p>react 모듈과 하위 컴포넌트를 불러온다.</p>
+          <pre class="brush: js; html-script: false; toolbar: false; ">
+        // require 방식
+        // const React = require('react');
+        // const ReactDom = require('react-dom');
+        // const WordRelay = require('./WordRelay');
+        
+        // import 방식
+        import React from 'react';
+        import ReactDOM from 'react-dom';
+        import App from './App';
+
+        ReactDOM.render(<App />, document.getElementById('root'));</pre>
+        </li>
+        <li>
+          <p class="mb10">src 폴더에 <b>App.js</b>를 생성한다.(실제 컨텐츠가 들어감)</p>
+          <pre class="brush: js; html-script: false; toolbar: false; ">
+          // const React = require('react');   
+          // const { Component } = React;
+          import React, { Component } from 'react';
+    
+          function App() {
+            return (
+              <div>
+                ..컨텐츠
+              </div>
+            )
+          } 
+    
+          module.exports = App;
+          //export default App</pre>
+        </li>
+        <li>
+          <p class="mb10"><b>webpack.config.js</b> 웹팩 설정 파일 생성한다.</p>
+          <pre class="brush: js; html-script: false; toolbar: false; ">
+        const path = require('path');
+        const RefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
+        // mode가 production 일때 환경 변수 넣어주어야 한다.
+        // process.env.NODE_ENV = 'production';
+
+        module.exports = {
+          name : 'wordrelay-setting',
+          mode : 'development', //실 서비스 : production
+          devtool: 'eval',  //   개발시에는 eval, 실서비스에서는 hidden-source-map
+          resolve: {
+            extensions : ['.js', '.jsx']  //확장자 생략을 위한 구분
+          },
+          //입력
+          entry : {
+            app: ['./src/index.js'],  //확장자 생략 가능  app: ['./src/index'] (이렇게??)
+          },
+          //entry의 파일을 읽어 모듈을 적용한 후 output으로 출력
+          module: {
+            rules: [
+               {
+                test: /\.jsx?/, //확장자가 js 또는 jsx 파일을 선택하는 정규표현식  ? 바로 앞의 문자가 있거나 없을수도 있다.
+                loader: 'babel-loader',
+                //exclude: /(node_modules|bower_components)/,
+                options: {
+                 //옵션을 넣는 방법
+                  presets: [ ["@babel/preset-env", {
+                  "targets": {"ie": "11"},
+                  debug : true,
+                  "useBuiltIns":"entry",
+                  "corejs":3,
+                  }], "@babel/preset-react" ],
+                 // presets: [ "@babel/preset-env", "@babel/preset-react" ],
+                  plugins: ['@babel/plugin-proposal-class-properties', 'react-refresh/babel']
+                },
+              },
+              {
+                test: /\.css$/,
+                use: [
+                  // [style-loader](/loaders/style-loader)
+                  { loader: 'style-loader' },
+                  // [css-loader](/loaders/css-loader)
+                  {
+                  loader: 'css-loader',
+                  options: {
+                    modules: true
+                  }
+                  },
+                  // [sass-loader](/loaders/sass-loader)
+                  { loader: 'sass-loader' }
+                ]
+              },
+            ],
+          },
+          plugins: [
+            new RefreshWebpackPlugin()
+          ],
+          //출력
+          output : {
+            path: path.join(__dirname, "dist"),  //__dirname : 현재폴더, 
+            filename : 'index_bundle.js', // 번들링된 파일인 이 파일을 index.html에 링크시켜 준다.
+            publicPath: '/dist/'
+          },
+          devServer: {
+            publicPath: '/dist/',
+            hot: true
+          },
+        };</pre>
+        </li>
+        <li>
+          <p class="mb10"><b>pakage.json</b> 수정</p>
+          <p>package.json내의 script는 <b>npm을 통한 명령어를 지정</b>하는 부분입니다.<br>웹팩을 설치한 후 개발용 서버를 실행시키기 위해 package.json
+            파일의
+            sciprts 부분에 아래의 코드를 추가하여 줍니다.<br>
+            아래 코드를 추가함으로 터미널에서(루트폴더에 위치한 상태) <b>npm start</b>를 통해 webpack-dev-server 를 실행시킬 수 있다.</p>
+          <pre class="brush: js; html-script: false; toolbar: false; ">
+        "scripts": {
+          "start": "webpack-dev-server --config ./webpack.config.js --mode development",       //추가된 row
+          "test": "echo \"Error: no test specified\" && exit 1",
+          // "dev" : "webpack"   //npm run dev (webpack 실행을 위한 명령어 등록), 커맨드창에 npx webpack 으로 실행 가능.
+          "dev": "webpack serve --env development"  //웹팩, 서버, 핫로딩을 위한 설정.
+        },</pre>
+        </li>
+        <li><b>npm run dev, npm start</b>를 통해 프로젝트를 실행한다.</li>
+      </ul>
+    </div><!-- section  끝 -->
+
+    <div class="section">
+      <h4 class="h4_bul">require와 import</h4>
+      <ul class="list_bull">
+        <li>require : node의 모듈시스템</li>
+        <li>import : es2015 문법</li>
+      </ul>
+      <h5>require 방식</h5>
+      <pre class="brush: js; html-script: false; toolbar: false;">
+      const React = require('react');
+      exports.hello = "hello";
+      module.exports = WordRelay;</pre>
+      <h5>import 방식</h5>
+      <pre class="brush: js; html-script: false; toolbar: false;">
+        import React, { useState, useRef } from "react";
+        export const hello = "hello"
+        export default WordRelay</pre>
+    </div><!-- section  끝 -->
+  </div>
+  <!-- 개발환경설정 끝 -->
+
+
+  <!--------------------------------------------------------------------------------------------------------------------------------
+  javascript / 
+  ajax/ 
+  javascript ajax 탭에 추가
+  js_ajax.html
+---------------------------------------------------------------------------------------------------------------------------------->
+  <!--' GET방식 요청해 데이터 응답 받기(보낸데이터 없음)' 뒤에 추가 -->
+  <h5>XHR 통신 : json 형태의 데이터 api에서 데이터 받아오기</h5>
+  <pre class="brush: js; html-script: false; toolbar: false;">
+  class XHRtest {
+    constructor() {
+      const dataURL = "url";
+      this.setInitData(dataURL);
+    }
+    setInitData(dataURL) {
+      this.getData(dataURL);
+      //do something...
+    }
+    getData(dataURL) {
+      const ojbReq = new XMLHttpRequest();
+      ojbReq.addEventListener("load", () => {
+      const list = JSON.parse(ojbReq.responseText); //JSON.parse 문자열로 들어온 값을 object로 만듦
+      console.log(list);
+  
+      list.forEach((value) => {
+        console.log(value.title);
+      })
+      })
+      ojbReq.open('GET', dataURL);
+      ojbReq.send()
+    }
+}</pre>
+
+
+  <!--------------------------------------------------------------------------------------------------------------------------------
+  javascript / 
+  이벤트/ 
+  js_event.html
+---------------------------------------------------------------------------------------------------------------------------------->
+  <!-- 이벤트 등록/제거 탭 '다수의 엘리먼트에 이벤트 등록' 에 추가 -->
+  <h5>이벤트 deligation / 이벤트 위임</h5>
+  <p>반복되는 li요소에 각각 이벤트가 아닌 <b>부모요소에 이벤트</b>를 걸어 처리</p>
+  <pre class="brush: js; html-script: false; toolbar: false;">
+const ul = document.querySelector("ul");
+ul.addEventListener("click", (evt) => {
+  const targetClassName = evt.target.className;
+})
+
+ul.addEventListener("click", ({target}}) => {
+  const targetClassName = target.className;   //디스트러칭을 이용해 이벤트 객체내의 target 만 받아올 수 있다.
+})</pre>
+
+
+  <!-- 'mouse, mouse_keybord' 마우스 우클릭 금지 에 추가 -->
+
+
+
+
+  <!--------------------------------------------------------------------------------------------------------------------------------
+  프레임워크 & 라이브러리 & 플러그인.... / 
+  React 프레임워크
+  plugin_react.html
+---------------------------------------------------------------------------------------------------------------------------------->
+
+  <!-- menu에 추가 -->
+  <li><a href="#plugin_react">React 프레임워크</a></li>
+
+
+  <!-- 전체 -->
+  <h3 class="h3_bul">React 프레임워크</h3>
+
+  <div class="tab_list">
+    <ul class="tab_btns">
+      <li><a href="#list01" class="on">Ant Design</a></li>
+      <li><a href="#list02">styled-component</a></li>
+      <li><a href="#list03">탭페이지3</a></li>
+    </ul>
+
+    <!-- Ant Design 시작 -->
+    <div class="tab_box on" id="list01">
+      <div class="section">
+        <h4 class="h4_bul">설치</h4>
+        <pre class="brush: js; html-script: false; toolbar: false;">
+         npm install antd
+         npm install --save @ant-design/icons</pre>
+      </div><!-- section  끝 -->
+    </div>
+    <!-- Ant Design 끝 -->
+
+    <!-- styled-component 시작 -->
+    <div class="tab_box" id="list02">
+      <div class="section">
+        <h4 class="h4_bul">설치</h4>
+        <pre class="brush: xml; html-script: false; toolbar: false;">
+         npm install --save styled-components</pre>
+      </div><!-- section  끝 -->
+    </div>
+    <!-- styled-component 끝 -->
+
+    <!-- 탭페이지 3 시작 -->
+    <div class="tab_box" id="list03">
+      <div class="section">
+        <h4 class="h4_bul"></h4>
+        <pre class="brush: xml; html-script: false; toolbar: false;">
+         </pre>
+      </div><!-- section  끝 -->
+    </div>
+    <!-- 탭페이지 3 끝 -->
+
+  </div><!-- 탭 끝 -->
+
+
+   <!--------------------------------------------------------------------------------------------------------------------------------
+  Front/BackEnd
+  React 
+  React개요/개발환경
+  FR_react.html
+---------------------------------------------------------------------------------------------------------------------------------->
+  <!-- 개발환경구성 탭 . 수정-->
+  <div class="section">
+    <h4 class="h4_bul">CDN 방식의 개발환경 구성</h4>
+    <p>권장하는 방법이 아니므로 임시의 용도로만 사용한다. </p>
+    <pre class="brush: js; html-script: false; toolbar: false;">
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    &lt;body>
+      <div id="root"></div>
+      &lt;script type="text/babel">
+        // < !--리액트 코드 작성-- >
+        const e = React.createElement;
+        class LikeButton extends React.Component {
+          constructor(props) {
+            super(props);
+            this.state = {
+              liked: false,
+            }
+          }
+
+          return(
+              &lt;button title="click" onClick={()=> this.setState({ liked: true })}>{ this.state.liked === true ? "Liked" : "Like" }&lt;/button>
+            )
+        }
+        ReactDOM.render(e(LikeButton), document.querySelector("#root"));
+      &lt;/script>
+  &lt;/body>
+  </pre>
+
+  </div><!-- section  끝 -->
+
+
+  <!--------------------------------------------------------------------------------------------------------------------------------
+  javascript
+  메서드
+  string 탭
+  js_method.html
+---------------------------------------------------------------------------------------------------------------------------------->
+  <!-- 'Array.toString(), Date.toString()' 뒤에 추가 -->
+
+  <h5>문자열의 특정 자리에 배열로 접근</h5>
+  <p>string의 첫번 째 또는 마지막 글자 확인. <b>word[0], word[1], word[2]</b> 형태로 접근할 수 있다.</p>
+  <pre class="brush: js; html-script: false; toolbar: false;">
+var word = "박은희"
+word[word.length -1] //word.length -1 은 2.   
+//희</pre>
+
+
+  <!-- 'split()' 뒤에 추가 -->
+  <h6>문자를 배열로, 배열을 문자로 : split, map, parseIn</h6>
+  <p>다음 map의 화살표 함수는 return 이 생략된 형태임. (사용한 것과 같음)</p>
+  <pre class="brush: js; html-script: false; toolbar: false;">
+this.state.value = '1234'
+const answerArray = this.state.value.split('').map((value) => parseInt(value)); 
+// .split('') : 문자를 한글자씩 잘라 배열로 담음. '1234' -> ["1","2","3","4"] => string
+// parseInt(value) 를 사용하여 문자열을 숫자로 바꿈 [1, 2, 3, 4]
+  
+[1,2,3,4].join("")  // "1234"
+</pre>
+  <!-- 'split()' 뒤에 추가 -->
+
+
+  <!-- '.includes(str)' 뒤에 추가 -->
+  <!-- '.includes(str)' 뒤에 추가 -->
+
+
+
+  <!--------------------------------------------------------------------------------------------------------------------------------  
+  javascript / 
+  ES6/ 
+  비구조화할당 탭
+  js_es6.html 
+-------------------------------------------------------------------------------------------------------------------------------->
+
+  <!-- 섹션 추가 -->
+
+  <div class="section">
+    <h4 class="h4_bul">디스트럭처링</h4>
+    <pre class="brush: js; html-script: false; toolbar: false;">
+  const layout = {
+    labelCol: {
+      span: 8,
+    },
+    wrapperCol: {
+      span: 16,
+    },
+  };
+    
+  &lt;Form {...layout }>
+  &lt;Form labelCol={{ span: 4 }} wrapperCol={{ span: 14 }}></pre>
+
+  </div><!-- section  끝 -->
